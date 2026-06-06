@@ -1,66 +1,200 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>README - Sistem Manajemen Materi Pembelajaran</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<h2>1. Deskripsi Project</h2>
+<p>
+Project ini merupakan sistem manajemen materi pembelajaran berbasis Laravel.
+Sistem memiliki dua role utama:
 </p>
 
-## About Laravel
+<ul>
+  <li><strong>Admin</strong>: mengelola materi (CRUD)</li>
+  <li><strong>Siswa</strong>: mengakses dan membaca materi</li>
+</ul>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p>Materi mendukung beberapa tipe:</p>
+<ul>
+  <li>PDF</li>
+  <li>Gambar (Image)</li>
+  <li>YouTube (embed link)</li>
+</ul>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<hr>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h2>2. Tech Stack</h2>
+<ul>
+  <li>Laravel 10+</li>
+  <li>PHP 8.1+</li>
+  <li>MySQL / MariaDB</li>
+  <li>Laravel Sanctum (Authentication API)</li>
+  <li>Bootstrap 5 (Frontend)</li>
+  <li>JavaScript (Fetch API)</li>
+</ul>
 
-## Learning Laravel
+<hr>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<h2>3. Instalasi Project</h2>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<h3>3.1 Clone Repository</h3>
+<pre><code>git clone https://github.com/username/nama-project.git
+cd nama-project</code></pre>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<h3>3.2 Install Dependency</h3>
+<pre><code>composer install
+npm install</code></pre>
 
-## Laravel Sponsors
+<h3>3.3 Copy Environment File</h3>
+<pre><code>cp .env.example .env</code></pre>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<h3>3.4 Generate Application Key</h3>
+<pre><code>php artisan key:generate</code></pre>
 
-### Premium Partners
+<hr>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+<h2>4. Konfigurasi Database (.env)</h2>
 
-## Contributing
+<pre><code>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=root
+DB_PASSWORD=</code></pre>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<hr>
 
-## Code of Conduct
+<h2>5. Migrasi Database</h2>
+<pre><code>php artisan migrate</code></pre>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<hr>
 
-## Security Vulnerabilities
+<h2>6. Seeder (Data Awal)</h2>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+<p>Jalankan seeder:</p>
+<pre><code>php artisan db:seed</code></pre>
 
-## License
+<p>Atau reset database sekaligus:</p>
+<pre><code>php artisan migrate:fresh --seed</code></pre>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<hr>
+
+<h2>7. Storage Link</h2>
+<pre><code>php artisan storage:link</code></pre>
+
+<p>
+Digunakan agar file PDF, gambar, dan materi dapat diakses dari browser.
+</p>
+
+<hr>
+
+<h2>8. Menjalankan Project</h2>
+
+<h3>Jalankan Laravel</h3>
+<pre><code>php artisan serve</code></pre>
+
+<p>URL default:</p>
+<pre><code>http://127.0.0.1:8000</code></pre>
+
+<h3>Compile Asset (Opsional)</h3>
+
+<p>Development:</p>
+<pre><code>npm run dev</code></pre>
+
+<p>Production:</p>
+<pre><code>npm run build</code></pre>
+
+<hr>
+
+<h2>9. Fitur Utama</h2>
+
+<h3>Admin</h3>
+<ul>
+  <li>Login admin</li>
+  <li>Dashboard admin</li>
+  <li>CRUD materi</li>
+  <li>Upload file PDF / Image</li>
+  <li>Embed YouTube</li>
+  <li>Edit & delete materi</li>
+</ul>
+
+<h3>Siswa</h3>
+<ul>
+  <li>Login siswa</li>
+  <li>Dashboard materi</li>
+  <li>List materi</li>
+  <li>Detail materi</li>
+  <li>Preview PDF, image, dan YouTube embed</li>
+</ul>
+
+<hr>
+
+<h2>10. Struktur Route</h2>
+
+<h3>Web Routes</h3>
+<ul>
+  <li>/admin/dashboard</li>
+  <li>/admin/materi</li>
+  <li>/admin/materi/create</li>
+  <li>/admin/materi/{id}</li>
+  <li>/admin/materi/{id}/edit</li>
+</ul>
+
+<h3>API Routes</h3>
+<ul>
+  <li>GET /api/materi</li>
+  <li>POST /api/materi</li>
+  <li>PUT /api/materi/{id}</li>
+  <li>DELETE /api/materi/{id}</li>
+</ul>
+
+<hr>
+
+<h2>11. Struktur Database</h2>
+
+<h3>tabel: materi</h3>
+<ul>
+  <li>id</li>
+  <li>title</li>
+  <li>description</li>
+  <li>type (pdf/image/youtube)</li>
+  <li>file_path</li>
+  <li>youtube_url</li>
+  <li>created_by</li>
+  <li>timestamps</li>
+</ul>
+
+<hr>
+
+<h2>12. Authentication</h2>
+<ul>
+  <li>Laravel Sanctum digunakan untuk autentikasi API</li>
+  <li>Admin menggunakan middleware <code>admin</code></li>
+  <li>User hanya dapat akses materi</li>
+</ul>
+
+<hr>
+
+<h2>13. Catatan Penting</h2>
+<ul>
+  <li>Jalankan <code>php artisan storage:link</code></li>
+  <li>Pastikan folder storage dapat diakses</li>
+  <li>File upload dibatasi PDF/JPG/PNG</li>
+  <li>YouTube harus link valid</li>
+</ul>
+
+<hr>
+
+<h2>14. Troubleshooting</h2>
+
+<h3>404 halaman admin</h3>
+<ul>
+  <li>Cek route web.php</li>
+  <li>Cek middleware admin</li>
+</ul>
+
+<h3>File tidak tampil</h3>
+<pre><code>php artisan storage:link</code></pre>
+
+<h3>API error upload</h3>
+<ul>
+  <li>Pastikan CSRF token benar</li>
+  <li>Header Accept: application/json</li>
+</ul>
