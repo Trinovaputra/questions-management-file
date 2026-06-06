@@ -2,201 +2,144 @@
 @section('title', 'Dashboard Siswa')
 @section('content')
 
-<div class="content-grid">
+<div class="container-fluid py-3">
     <!-- Welcome Section -->
-    <div class="welcome-section">
-        <h2>Selamat Datang, {{ auth()->user()->name }}! 👋</h2>
-        <p>Pilih materi yang ingin Anda pelajari untuk memulai.</p>
-    </div>
-
-    <!-- Materi Section -->
-    <div class="dashboard-card">
-        <h3 class="card-title">
-            <i class="bi bi-book me-2"></i>Materi Terbaru
-        </h3>
-
-        <div class="row g-3">
-            @foreach($materiTerbaru as $materi)
-                <div class="col-md-4">
-                    <div class="materi-card">
-                        <h5 class="materi-title">
-                            {{ $materi->title }}
-                        </h5>
-
-                        <p class="materi-desc">
-                            {{ Str::limit($materi->description ?? 'Tidak ada deskripsi', 80) }}
-                        </p>
-
-                        <a href="{{ route('materi.show', $materi->id) }}" class="materi-link">
-                            Pelajari <i class="bi bi-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            @endforeach
+    <div class="welcome-section mb-4 p-4 p-md-5 text-white rounded-3 shadow" style="background: linear-gradient(135deg, #1591DC 0%, #4f46e5 100%);">
+        <div class="d-flex align-items-center gap-3">
+            <div>
+                <h2 class="fw-bold mb-1">Selamat Datang, {{ auth()->user()->name }}! 👋</h2>
+                <p class="mb-0 opacity-90">Pilih materi yang ingin Anda pelajari untuk memulai perjalanan belajar hari ini.</p>
+            </div>
         </div>
     </div>
 
     <!-- Quick Stats -->
-    <div class="row g-3">
-        <div class="col-md-6 col-lg-3">
-            <div class="stat-card">
-                <div class="stat-icon materi-icon">
-                    <i class="bi bi-book-half"></i>
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 bg-primary-subtle text-primary rounded-3">
+                            <i class="bi bi-book-half fs-3"></i>
+                        </div>
+                        <div>
+                            <p class="text-secondary mb-1 fw-semibold text-uppercase tracking-wider small" style="letter-spacing: 0.05em;">Total Materi</p>
+                            <h3 class="fw-bold mb-0 text-slate-800">{{ $totalMateri }}</h3>
+                        </div>
+                    </div>
                 </div>
-                <h6 class="stat-label">Total Materi</h6>
-                <p class="stat-value">{{ $totalMateri }}</p>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="stat-card">
-                <div class="stat-icon activity-icon">
-                    <i class="bi bi-calendar-check"></i>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 bg-success-subtle text-success rounded-3">
+                            <i class="bi bi-calendar-check fs-3"></i>
+                        </div>
+                        <div>
+                            <p class="text-secondary mb-1 fw-semibold text-uppercase tracking-wider small" style="letter-spacing: 0.05em;">Hari Ini</p>
+                            <h3 class="fw-bold mb-0 text-slate-800">{{ date('d M Y') }}</h3>
+                        </div>
+                    </div>
                 </div>
-                <h6 class="stat-label">Hari Ini</h6>
-                <p class="stat-value">{{ date('d M') }}</p>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="stat-card">
-                <div class="stat-icon achievement-icon">
-                    <i class="bi bi-trophy"></i>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 bg-warning-subtle text-warning rounded-3">
+                            <i class="bi bi-trophy fs-3"></i>
+                        </div>
+                        <div>
+                            <p class="text-secondary mb-1 fw-semibold text-uppercase tracking-wider small" style="letter-spacing: 0.05em;">Pencapaian</p>
+                            <h3 class="fw-bold mb-0 text-slate-800">0</h3>
+                        </div>
+                    </div>
                 </div>
-                <h6 class="stat-label">Pencapaian</h6>
-                <p class="stat-value">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materi Section -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3 px-4 d-flex align-items-center">
+            <h5 class="mb-0 fw-semibold text-slate-800">
+                <i class="bi bi-book text-primary me-2"></i>Materi Terbaru
+            </h5>
+        </div>
+
+        <div class="card-body p-4 bg-light-subtle">
+            <div class="row g-4">
+                @forelse($materiTerbaru as $materi)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100 materi-interactive-card">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="mb-3 d-flex align-items-center justify-content-between">
+                                    @if($materi->type == 'pdf')
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2.5 py-1 fw-medium small">
+                                            <i class="bi bi-file-earmark-pdf me-1"></i>PDF
+                                        </span>
+                                    @elseif($materi->type == 'image')
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2.5 py-1 fw-medium small">
+                                            <i class="bi bi-image me-1"></i>IMAGE
+                                        </span>
+                                    @else
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5 py-1 fw-medium small">
+                                            <i class="bi bi-youtube me-1"></i>YOUTUBE
+                                        </span>
+                                    @endif
+                                    <small class="text-secondary small">{{ $materi->created_at->format('d M Y') }}</small>
+                                </div>
+
+                                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;">{{ $materi->title }}</h5>
+                                <p class="text-secondary small mb-4 flex-grow-1" style="line-height: 1.6;">
+                                    {{ Str::limit($materi->description ?? 'Tidak ada deskripsi materi.', 100) }}
+                                </p>
+
+                                <div class="mt-auto pt-3 border-top border-light-subtle">
+                                    <a href="{{ route('materi.show', $materi->id) }}" class="text-decoration-none fw-semibold text-primary d-inline-flex align-items-center gap-1 small learn-more-link">
+                                        Pelajari Materi <i class="bi bi-arrow-right transition-arrow"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 py-5 text-center text-secondary">
+                        <i class="bi bi-inbox fs-1 text-muted opacity-50 mb-2 d-block"></i>
+                        <span class="fw-medium">Belum ada materi pembelajaran yang tersedia.</span>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .materi-card {
-        background: white;
-        border: 1px solid var(--border-color);
-        border-radius: 0.6rem;
-        padding: 1.5rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        transition: var(--transition);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    .materi-interactive-card {
+        transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
     }
-
-    .materi-card:hover {
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
-        transform: translateY(-2px);
+    .materi-interactive-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.1) !important;
+        border-color: rgba(79, 70, 229, 0.2) !important;
     }
-
-    .materi-header {
-        font-size: 2.5rem;
-        color: var(--secondary-color);
-        margin-bottom: 1rem;
+    .learn-more-link {
+        transition: color 0.2s ease;
     }
-
-    .materi-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 0.5rem;
+    .learn-more-link:hover {
+        color: #3b82f6 !important;
     }
-
-    .materi-desc {
-        font-size: 0.85rem;
-        color: #64748b;
-        margin-bottom: 1rem;
-        flex: 1;
+    .learn-more-link:hover .transition-arrow {
+        transform: translateX(4px);
     }
-
-    .materi-link {
-        display: inline-flex;
-        align-items: center;
-        color: var(--secondary-color);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: var(--transition);
-    }
-
-    .materi-link:hover {
-        color: #5a57d8;
-        gap: 0.5rem;
-    }
-
-    .stat-card {
-        background: white;
-        border: 1px solid var(--border-color);
-        border-radius: 0.6rem;
-        padding: 1.5rem;
-        text-align: center;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        transition: var(--transition);
-    }
-
-    .stat-card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-icon {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-    }
-
-    .materi-icon {
-        background: rgba(79, 70, 229, 0.1);
-        color: var(--secondary-color);
-    }
-
-    .progress-icon {
-        background: rgba(34, 197, 94, 0.1);
-        color: #22c55e;
-    }
-
-    .activity-icon {
-        background: rgba(59, 130, 246, 0.1);
-        color: #3b82f6;
-    }
-
-    .achievement-icon {
-        background: rgba(251, 191, 36, 0.1);
-        color: var(--accent-color);
-    }
-
-    .stat-label {
-        font-size: 0.85rem;
-        color: #64748b;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-    }
-
-    .stat-value {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin: 0;
-    }
-
-    .row {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 1.5rem;
-    }
-
-    @media (max-width: 768px) {
-        .materi-card {
-            padding: 1.25rem;
-        }
-
-        .stat-card {
-            padding: 1.25rem;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-        }
+    .transition-arrow {
+        transition: transform 0.2s ease;
     }
 </style>
 

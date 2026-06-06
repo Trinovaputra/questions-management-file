@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Materi;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class MateriController extends Controller
 {
@@ -65,7 +66,7 @@ class MateriController extends Controller
             'type' => $request->type,
             'file_path' => $path,
             'youtube_url' => $request->youtube_url,
-            'created_by' => auth()->id()
+            'created_by' => Auth::id()
         ]);
 
         return response()->json([
@@ -109,13 +110,16 @@ class MateriController extends Controller
         $materi = Materi::findOrFail($id);
 
         if (!$materi->file_path) {
-            return response()->json([
-                'message' => 'File tidak tersedia'
-            ], 404);
+            abort(404, 'File tidak tersedia');
         }
 
-        return Storage::disk('public')
-            ->download($materi->file_path);
+        $filePath = storage_path('app/public/' . $materi->file_path);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return response()->download($filePath);
     }
 
     /**
@@ -137,20 +141,26 @@ class MateriController extends Controller
             'type' => 'required|in:pdf,image,youtube',
             'youtube_url' => 'required_if:type,youtube|nullable|url',
             'file' => [
-                'required_if:type,pdf,image',
                 'nullable',
                 'file',
                 'mimes:pdf,jpg,jpeg,png'
             ]
         ]);
 
-        // memperbarui file
         if ($request->hasFile('file')) {
-            if ($materi->file_path && Storage::disk('public')->exists($materi->file_path)) {
+
+            if (
+                $materi->file_path &&
+                Storage::disk('public')->exists($materi->file_path)
+            ) {
                 Storage::disk('public')->delete($materi->file_path);
             }
-            $materi->file_path = $request->file('file')->store('materi', 'public');
+
+            $materi->file_path = $request
+                ->file('file')
+                ->store('materi', 'public');
         }
+
         $materi->title = $request->title;
         $materi->description = $request->description;
         $materi->type = $request->type;
@@ -158,8 +168,9 @@ class MateriController extends Controller
 
         $materi->save();
 
-        return redirect()->route('materi.admin.index')
-        ->with('success', 'Materi berhasil diupdate');
+        return redirect()
+            ->route('materi.admin.index')
+            ->with('success', 'Materi berhasil diupdate');
     }
 
     /**
