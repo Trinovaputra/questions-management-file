@@ -24,4 +24,19 @@ class Materi extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function getYoutubeIdAttribute()
+    {
+        if (!$this->youtube_url) {
+            return null;
+        }
+
+        preg_match(
+            '/(?:youtube\.com.*v=|youtu\.be\/)([^&]+)/',
+            $this->youtube_url,
+            $matches
+        );
+
+        return $matches[1] ?? null;
+    }
 }

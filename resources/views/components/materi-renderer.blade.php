@@ -16,7 +16,7 @@
     @if($materi->type === 'pdf')
         <div class="bg-light border rounded-3 p-1 mb-3">
             <iframe
-                src="{{ asset('storage/' . $materi->file_path) }}"
+                src="{{ asset('storage/' . $materi->file_path) }}#toolbar=0&navpanes=0&scrollbar=0"
                 width="100%"
                 height="600px"
                 style="border: none;"
@@ -41,14 +41,11 @@
 
     {{-- YOUTUBE --}}
     @if($materi->type === 'youtube')
-        @php
-            $videoId = app(\App\View\Components\MateriRenderer::class, ['materi' => $materi])->youtubeId();
-        @endphp
 
-        @if($videoId)
+        @if($materi->youtube_id)
             <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm border">
                 <iframe
-                    src="https://www.youtube.com/embed/{{ $videoId }}"
+                    src="https://www.youtube.com/embed/{{ $materi->youtube_id }}">
                     frameborder="0"
                     allowfullscreen
                     class="rounded-3"

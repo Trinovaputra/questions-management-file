@@ -35,7 +35,6 @@
             </div>
         </div>
 
-        {{-- METADATA COLUMN --}}
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
